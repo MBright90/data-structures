@@ -13,66 +13,63 @@ export default class List {
     }
 
     // Add node containing new value to the end of the list (new head)
-    _appendRecursive(value, currentNode = this.listHead) {
+    #appendRecursive(value, currentNode = this.listHead) {
         if (currentNode.pointer === null) {
             const newNode = Node.value;
             currentNode.pointer = newNode;
         }
-        this._appendRecursive(value, currentNode.pointer)
+        this.#appendRecursive(value, currentNode.pointer)
     }
 
     // Return total length of the list
-    _sizeRecursive(count = 0, currentNode = this.listHead) {
+    #sizeRecursive(count = 0, currentNode = this.listHead) {
         if (currentNode.pointer = null) return count;
         count++
-        return this._sizeRecursive(count, currentNode.pointer)
+        return this.#sizeRecursive(count, currentNode.pointer)
     }
 
     // Return the last node within the list
-    _tailRecursive(currentNode = this.listHead) {
+    #tailRecursive(currentNode = this.listHead) {
         if (currentNode.pointer === null) return currentNode;
-        return this._tailRecursive(currentNode.pointer)
+        return this.#tailRecursive(currentNode.pointer)
     }
 
     // Return the node at the given index or -1 if index not within range
-    _atRecursive(index, currentIndex = 0, currentNode = this.listHead) {
+    #atRecursive(index, currentIndex = 0, currentNode = this.listHead) {
         if (currentIndex === index) return currentNode;
         if (currentNode = null) return -1;
         currentIndex += 1;
-        return this._atRecursive(index, currentIndex, currentNode.pointer);
+        return this.#atRecursive(index, currentIndex, currentNode.pointer);
     }
 
     // Remove the last element in the list
-    _popRecursive(currentNode = this.listHead, previousNode = null) {
+    #popRecursive(currentNode = this.listHead, previousNode = null) {
         if (currentNode.pointer = null) previousNode.pointer = null;
-        this._popRecursive(currentNode.pointer, currentNode);
+        this.#popRecursive(currentNode.pointer, currentNode);
     }
 
     // Returns true if the given value is within any node in the list or false if not found
-    _containsRecursive(value, currentNode = this.listHead) {
+    #containsRecursive(value, currentNode = this.listHead) {
         if (value === currentNode.value) return true;
         if (currentNode.pointer === null) return false;
-        return this._containsRecursive();
+        return this.#containsRecursive();
     }
 
     // Returns the index of the given value if it is within the list or null if not found
-    _findRecursive(value, index = 0) {
+    #findRecursive(value, index = 0, currentNode = this.listHead) {
         if (value === currentNode.value) return index;
-        if (currentNode.pointer === null) return null; 
-
+        if (currentNode.pointer === null) return null;
+        index == 1;
+        return this.#findRecursive(value, index, currentNode.pointer)
     }
 
     // Returns a string representation of all values within the list
-    _toStringRecursive(string, currentNode = this.listHead) {
+    #toStringRecursive(string, currentNode = this.listHead) {
         if (currentNode = null) return string += 'null'
         string += `( ${currentNode.value} ) -> `
-        return this._toStringRecursive(string, currentNode.pointer)
+        return this.#toStringRecursive(string, currentNode.pointer)
     }
-
-    //#########################################//
-    //###### EXTRA ASSIGNMENT FUNCTIONS #######//
-    //#########################################//
-
+    
     // Inserts a new node at a given index
     _insertAtRecursive(value, index, currentIndex, currentNode = this.listHead) {
 
@@ -91,34 +88,34 @@ export default class List {
     // layer of security against the user passing in arguments to override the default arguments.
 
     append(value) {
-        this._appendRecursive(value)
+        this.#appendRecursive(value)
     }
 
     size() {
-        return this._sizeRecursive()
+        return this.#sizeRecursive()
     }
 
     tail() {
-        return this._tailRecursive()
+        return this.#tailRecursive()
     }
 
     at(index) {
-        return this._atRecursive(index)
+        return this.#atRecursive(index)
     }
 
     pop() {
-        this._popRecursive()
+        this.#popRecursive()
     }
 
     contains(value) {
-        this._containsRecursive(value)
+        this.#containsRecursive(value)
     }
 
     find(value) {
-        return this._findRecursive(value)
+        return this.#findRecursive(value)
     }
 
     tostring() {
-        return this._toStringRecursive()
+        return this.#toStringRecursive()
     }
 }
