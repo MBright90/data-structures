@@ -23,7 +23,7 @@ export default class List {
   }
 
   // Return total length of the list
-  #sizeRecursive(count = 0, currentNode = this.listHead) {
+  #sizeRecursive(count = 1, currentNode = this.listHead) {
     if (currentNode.pointer === null) return count
     count += 1
     return this.#sizeRecursive(count, currentNode.pointer)
@@ -49,15 +49,18 @@ export default class List {
 
   // Remove the last element in the list
   #popRecursive(currentNode = this.listHead, previousNode = null) {
-    if (currentNode.pointer === null) previousNode.pointer = null
-    this.#popRecursive(currentNode.pointer, currentNode)
+    if (currentNode.pointer === null) {
+      previousNode.pointer = null
+    } else {
+      this.#popRecursive(currentNode.pointer, currentNode)
+    }
   }
 
   // Returns true if the given value is within any node in the list or false if not found
   #containsRecursive(value, currentNode = this.listHead) {
-    if (value === currentNode.value) return true
+    if (currentNode.value === value) return true
     if (currentNode.pointer === null) return false
-    return this.#containsRecursive()
+    return this.#containsRecursive(value, currentNode.pointer)
   }
 
   // Returns the index of the given value if it is within the list or null if not found
@@ -123,6 +126,7 @@ export default class List {
   }
 
   size() {
+    if (this.listHead === null) return 0
     return this.#sizeRecursive()
   }
 
@@ -139,7 +143,7 @@ export default class List {
   }
 
   contains(value) {
-    this.#containsRecursive(value)
+    return this.#containsRecursive(value)
   }
 
   find(value) {
