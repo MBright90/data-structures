@@ -114,8 +114,8 @@ export default class List {
   // ####### CLOSURE RETURN FUNCTIONS ########//
   // #########################################//
 
-  // Due to the recursive nature of my functions, I chose to return these functions as a
-  // layer of security against the user passing in arguments to override the default arguments.
+  // Due to the recursive nature of the above functions, we return these functions as a layer
+  // of security against the user passing in arguments to override the default arguments.
 
   append(value) {
     if (this.listHead === null) {
@@ -126,7 +126,7 @@ export default class List {
   }
 
   size() {
-    if (this.listHead === null) return 0
+    if (this.listHead === null) return 0 // If there are no Nodes configured, return a length of 0
     return this.#sizeRecursive()
   }
 
