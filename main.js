@@ -1,7 +1,9 @@
-import LinkedList from './linkedList'
+import LinkedList from './linkedList.js'
 
-const List = LinkedList()
+const List = new LinkedList()
 
 List.append(50)
+List.append(54)
+List.prepend(13)
 
-console.log(List.toString())
+console.log(List.head()) // 13
