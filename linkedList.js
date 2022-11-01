@@ -69,7 +69,7 @@ export default class List {
   }
 
   // Returns a string representation of all values within the list
-  #toStringRecursive(string, currentNode = this.listHead) {
+  #toStringRecursive(string = '', currentNode = this.listHead) {
     if (currentNode === null) {
       string += 'null'
       return string
@@ -93,7 +93,7 @@ export default class List {
   }
 
   // Removes a node from a given index
-  #removeAtRecursive(index, currentIndex, currentNode = this.listHead, previousNode = null) {
+  #removeAtRecursive(index, currentIndex = 0, currentNode = this.listHead, previousNode = null) {
     if (index === currentIndex) {
       if (previousNode === null) {
         currentNode.pointer = this.listHead
@@ -156,5 +156,10 @@ export default class List {
 
   removeAt(index) {
     this.#removeAtRecursive(index)
+  }
+
+  // Function to append many for testing
+  appendMany(...values) {
+    values.forEach((value) => this.append(value))
   }
 }
