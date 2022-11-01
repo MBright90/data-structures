@@ -17,6 +17,7 @@ export default class List {
         if (currentNode.pointer === null) {
             const newNode = Node.value;
             currentNode.pointer = newNode;
+            return
         }
         this.#appendRecursive(value, currentNode.pointer);
     }
@@ -84,8 +85,18 @@ export default class List {
     }
 
     // Removes a node from a given index
-    #removeAtRecursive(index, currentIndex, currentNode = this.listHead, previousNode) {
-
+    #removeAtRecursive(index, currentIndex, currentNode = this.listHead, previousNode = null) {
+        if (index === currentIndex) {
+            if (previousNode === null) {
+                currentNode.pointer = this.listHead
+            } else {
+                previousNode.pointer = currentNode.pointer
+            }
+            return
+        }
+        if (currentNode.pointer === null) return
+        currentIndex++;
+        this.#removeAtRecursive(index, currentIndex, currentNode.pointer, currentNode)
     }
 
     //#########################################//
@@ -125,5 +136,13 @@ export default class List {
 
     tostring() {
         return this.#toStringRecursive()
+    }
+
+    insertAt(value, index) {
+        this.#insertAtRecursive(value, index)
+    }
+
+    removeAt(index) {
+        this.#removeAtRecursive(index)
     }
 }
