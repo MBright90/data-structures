@@ -1,6 +1,6 @@
 export default class {
-    constructor(value) {
-        this.value = value
-        this.pointer = null
-    }
+  constructor(value) {
+    this.value = value
+    this.pointer = null
+  }
 }
