@@ -1,5 +1,4 @@
-/* eslint-disable max-len */
-import Node from './listNode'
+import Node from './listNode.js'
 
 export default class List {
   constructor() {
@@ -9,18 +8,18 @@ export default class List {
   // Add node containing new value to the start of the list (new head)
   prepend(value) {
     const nextNode = this.listHead
-    this.listHead = Node(value)
+    this.listHead = new Node(value)
     this.listHead.pointer = nextNode
   }
 
   // Add node containing new value to the end of the list (new head)
   #appendRecursive(value, currentNode = this.listHead) {
     if (currentNode.pointer === null) {
-      const newNode = Node.value
+      const newNode = new Node(value)
       currentNode.pointer = newNode
-      return
+    } else {
+      this.#appendRecursive(value, currentNode.pointer)
     }
-    this.#appendRecursive(value, currentNode.pointer)
   }
 
   // Return total length of the list
@@ -28,6 +27,10 @@ export default class List {
     if (currentNode.pointer === null) return count
     count += 1
     return this.#sizeRecursive(count, currentNode.pointer)
+  }
+
+  head() {
+    return this.listHead
   }
 
   // Return the last node within the list
@@ -76,9 +79,10 @@ export default class List {
   }
 
   // Inserts a new node at a given index
+  /* eslint-disable-next-line max-len */
   #insertAtRecursive(value, index, currentIndex = 0, currentNode = this.listHead, previousNode = null) {
     if (index === currentIndex) {
-      const newNode = Node(value)
+      const newNode = new Node(value)
       newNode.pointer = currentNode
       previousNode.pointer = newNode
       return
@@ -111,7 +115,11 @@ export default class List {
   // layer of security against the user passing in arguments to override the default arguments.
 
   append(value) {
-    this.#appendRecursive(value)
+    if (this.listHead === null) {
+      this.prepend(value)
+    } else {
+      this.#appendRecursive(value)
+    }
   }
 
   size() {
