@@ -8,7 +8,7 @@ export default class List {
     // Add node containing new value to the start of the list (new head)
     prepend(value) {
         const nextNode = this.listHead;
-        this.listHead = Node(value)
+        this.listHead = Node(value);
         this.listHead.pointer = nextNode;
     }
 
@@ -18,20 +18,20 @@ export default class List {
             const newNode = Node.value;
             currentNode.pointer = newNode;
         }
-        this.#appendRecursive(value, currentNode.pointer)
+        this.#appendRecursive(value, currentNode.pointer);
     }
 
     // Return total length of the list
     #sizeRecursive(count = 0, currentNode = this.listHead) {
         if (currentNode.pointer = null) return count;
-        count++
-        return this.#sizeRecursive(count, currentNode.pointer)
+        count++;
+        return this.#sizeRecursive(count, currentNode.pointer);
     }
 
     // Return the last node within the list
     #tailRecursive(currentNode = this.listHead) {
         if (currentNode.pointer === null) return currentNode;
-        return this.#tailRecursive(currentNode.pointer)
+        return this.#tailRecursive(currentNode.pointer);
     }
 
     // Return the node at the given index or -1 if index not within range
@@ -60,23 +60,31 @@ export default class List {
         if (value === currentNode.value) return index;
         if (currentNode.pointer === null) return null;
         index == 1;
-        return this.#findRecursive(value, index, currentNode.pointer)
+        return this.#findRecursive(value, index, currentNode.pointer);
     }
 
     // Returns a string representation of all values within the list
     #toStringRecursive(string, currentNode = this.listHead) {
-        if (currentNode = null) return string += 'null'
-        string += `( ${currentNode.value} ) -> `
-        return this.#toStringRecursive(string, currentNode.pointer)
+        if (currentNode = null) return string += 'null';
+        string += `( ${currentNode.value} ) -> `;
+        return this.#toStringRecursive(string, currentNode.pointer);
     }
-    
-    // Inserts a new node at a given index
-    _insertAtRecursive(value, index, currentIndex, currentNode = this.listHead) {
 
+    // Inserts a new node at a given index
+    #insertAtRecursive(value, index, currentIndex = 0, currentNode = this.listHead, previousNode = null) {
+        if (index === currentIndex) {
+            const newNode = Node(value)
+            newNode.pointer = currentNode;
+            previousNode.pointer = newNode;
+            return
+        }
+        if (currentNode.pointer = null) return;
+        currentIndex ++;
+        this.#insertAtRecursive(value, index, currentIndex, currentNode.pointer, currentNode)
     }
 
     // Removes a node from a given index
-    _removeAtRecursive(index, currentIndex, currentNode = this.listHead) {
+    #removeAtRecursive(index, currentIndex, currentNode = this.listHead, previousNode) {
 
     }
 
