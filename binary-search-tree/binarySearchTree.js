@@ -128,6 +128,17 @@ export default class Tree {
     return this.#delete(value, currentNode.rightPointer, currentNode)
   }
 
+  // Takes a value and returns the node with the specified value
+  // returns null if value is not found
+  #find(value, currentNode = this.treeRoot) {
+    // base case
+    if (value === currentNode.value) return currentNode
+    if (currentNode.leftPointer === null && currentNode.rightPointer === null) return null
+
+    if (value < currentNode.value) return this.#find(value, currentNode.leftPointer)
+    return this.#find(value, currentNode.rightPointer)
+  }
+
   // Prints each nodes value during the level order of traversal
   #levelOrder(currentNode = this.treeRoot, queue = []) {
     console.log(currentNode.value)
@@ -151,6 +162,10 @@ export default class Tree {
 
   delete(value) {
     this.#delete(value)
+  }
+
+  find(value) {
+    this.#find(value)
   }
 
   levelOrder() {
