@@ -37,35 +37,32 @@ function removeDuplicates(array) {
 
 export default class Tree {
   constructor(array) {
-    this.treeRoot = this.buildTree(mergeSort(array))
+    this.treeRoot = this.#buildTree(removeDuplicates(mergeSort(array)))
   }
 
   // Sort array
   // set middle item as root node
   // recursively repeat for left and right
-  buildTree(array, startIndex = 0, endIndex = array.length - 1) {
+  #buildTree(array, startIndex = 0, endIndex = array.length - 1) {
     if (startIndex > endIndex) return null
 
-    const midIndex = ((startIndex + endIndex) / 2)
+    const midIndex = Math.floor((startIndex + endIndex) / 2)
     const rootNode = new Node(array[midIndex])
+    console.log(rootNode)
 
-    rootNode.leftPointer = this.buildTree(array, startIndex, midIndex - 1)
-    rootNode.rightPointer = this.buildTree(array, midIndex + 1, endIndex)
+    rootNode.leftPointer = this.#buildTree(array, startIndex, midIndex - 1)
+    rootNode.rightPointer = this.#buildTree(array, midIndex + 1, endIndex)
 
     return rootNode
   }
 
   prettyPrint(node = this.treeRoot, prefix = '', isLeft = true) {
     if (node.rightPointer !== null) {
-      this.prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false)
+      this.prettyPrint(node.rightPointer, `${prefix}${isLeft ? '│   ' : '    '}`, false)
     }
     console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.value}`)
     if (node.leftPointer !== null) {
-      this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true)
+      this.prettyPrint(node.leftPointer, `${prefix}${isLeft ? '    ' : '│   '}`, true)
     }
   }
 }
-
-const thisArray = mergeSort([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
-console.log(thisArray)
-console.log(removeDuplicates(thisArray))
