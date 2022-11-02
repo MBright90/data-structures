@@ -3,26 +3,34 @@ import Node from './treeNode.js'
 function mergeSort(array) {
   if (array.length === 1) return array
 
-  const midIndex = Math.floor((array.length - 1) / 2)
-  const leftArray = mergeSort(array.slice(0, midIndex))
-  const rightArray = mergeSort(array.slice(midIndex))
+  const leftArray = mergeSort(array.slice(0, array.length / 2))
+  const rightArray = mergeSort(array.slice(array.length / 2))
 
   let leftIndex = 0
   let rightIndex = 0
   const sortedArray = []
 
-  while ((leftArray.length + rightArray.length) > sortedArray.length) {
-    if (leftIndex === leftArray.length) {
-      sortedArray.push(...rightArray.slice(rightIndex))
-    } else if (rightIndex === rightArray.length) {
-      sortedArray.push(...leftArray.slice(leftIndex))
-    } else if (leftArray[leftIndex] < rightArray[rightIndex]) {
+  while (leftArray.length > leftIndex && rightArray.length > rightIndex) {
+    if (leftArray[leftIndex] < rightArray[rightIndex]) {
       sortedArray[sortedArray.length] = leftArray[leftIndex]
       leftIndex += 1
-    } else {
+    } else if (leftArray[leftIndex] >= rightArray[rightIndex]) {
       sortedArray[sortedArray.length] = rightArray[rightIndex]
       rightIndex += 1
     }
+  }
+  if (leftIndex === leftArray.length) {
+    sortedArray.push(...rightArray.slice(rightIndex))
+  } else {
+    sortedArray.push(...leftArray.slice(leftIndex))
+  }
+  return sortedArray
+}
+
+function removeDuplicates(array) {
+  const sortedArray = []
+  for (let i = 0; i < array.length; i += 1) {
+    if (!sortedArray.includes(array[i])) sortedArray[sortedArray.length] = array[i]
   }
   return sortedArray
 }
@@ -38,7 +46,7 @@ export default class Tree {
   buildTree(array, startIndex = 0, endIndex = array.length - 1) {
     if (startIndex > endIndex) return null
 
-    const midIndex = Math.floor((startIndex + endIndex) / 2)
+    const midIndex = ((startIndex + endIndex) / 2)
     const rootNode = new Node(array[midIndex])
 
     rootNode.leftPointer = this.buildTree(array, startIndex, midIndex - 1)
@@ -46,4 +54,18 @@ export default class Tree {
 
     return rootNode
   }
+
+  prettyPrint(node = this.treeRoot, prefix = '', isLeft = true) {
+    if (node.rightPointer !== null) {
+      this.prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false)
+    }
+    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.value}`)
+    if (node.leftPointer !== null) {
+      this.prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true)
+    }
+  }
 }
+
+const thisArray = mergeSort([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+console.log(thisArray)
+console.log(removeDuplicates(thisArray))
