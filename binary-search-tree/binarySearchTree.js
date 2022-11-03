@@ -269,7 +269,7 @@ export default class Tree {
 
   // Returns true if maximum difference of leaf depths is 1
   #isBalanced() {
-    
+    console.log(this)
   }
 
   // #########################################//
@@ -315,6 +315,10 @@ export default class Tree {
 
   depth(value) {
     return this.#depth(value)
+  }
+
+  isBalanced() {
+    return this.#isBalanced()
   }
 
   rebalance() {
