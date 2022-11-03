@@ -234,6 +234,44 @@ export default class Tree {
     return holdingArray
   }
 
+  // Accepts a value as parameter and returns the longest distance from a leaf node
+  #height(currentNode) {
+    if (currentNode.leftPointer === null && currentNode.rightPointer === null) {
+      return 1
+    }
+
+    if (currentNode.leftPointer === null) {
+      return this.#height(currentNode.rightPointer)
+    }
+    if (currentNode.rightPointer === null) {
+      return this.#height(currentNode.leftPointer)
+    }
+    const leftHeight = this.#height(currentNode.leftPointer)
+    const rightHeight = this.#height(currentNode.rightPointer)
+
+    if (leftHeight > rightHeight) return leftHeight + 1
+    return rightHeight + 1
+  }
+
+  // Accepts a value as a parameter and returns the distance to the value from the tree's root
+  #depth(value, currentNode = this.treeRoot) {
+    if (currentNode.value === value) return 1
+    if (currentNode.leftPointer === null && currentNode.rightPointer === null) return -1
+
+    let currentDepth
+    if (currentNode.value > value) {
+      currentDepth = this.#depth(value, currentNode.leftPointer)
+    } else {
+      currentDepth = this.#depth(value, currentNode.rightPointer)
+    }
+    return currentDepth > 0 ? currentDepth + 1 : -1
+  }
+
+  // Returns true if maximum difference of leaf depths is 1
+  #isBalanced() {
+    
+  }
+
   // #########################################//
   // ####### CLOSURE RETURN FUNCTIONS ########//
   // #########################################//
@@ -267,5 +305,19 @@ export default class Tree {
 
   postOrder(func = null) {
     return this.#postOrder(func)
+  }
+
+  height(value) {
+    const node = this.#find(value)
+    if (!node) return -1
+    return this.#height(node)
+  }
+
+  depth(value) {
+    return this.#depth(value)
+  }
+
+  rebalance() {
+    this.treeRoot = this.#buildTree(removeDuplicates(this.#inOrder()))
   }
 }
