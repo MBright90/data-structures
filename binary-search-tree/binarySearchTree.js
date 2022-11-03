@@ -138,13 +138,15 @@ export default class Tree {
     return this.#find(value, currentNode.rightPointer)
   }
 
-  // Prints each nodes value during the level order of traversal
+  // Returns an array of each nodes value during the level order (breadth-first) method of traversal
+  // If passed a function will return an array of objects
+  // with the outcome of the function on each node
   #levelOrder(func = null, currentNode = this.treeRoot, queue = [], holdingArray = []) {
     // DLR Data, Left Node, Right Node
     if (func) {
       holdingArray[holdingArray.length] = {
         value: currentNode.value,
-        outcome: func(currentNode.value),
+        outcome: func(currentNode),
       }
     } else {
       holdingArray[holdingArray.length] = currentNode.value
@@ -155,6 +157,81 @@ export default class Tree {
 
     if (queue.length === 0) return holdingArray
     return this.#levelOrder(func, queue.shift(), queue, holdingArray)
+  }
+
+  // Returns an array of each nodes value during the in order (depth-first) method of traversal
+  // Search left, then the data, then search right
+  // If passed a function will return an array of objects
+  // with the outcome of the function on each node
+  #inOrder(func = null, currentNode = this.treeRoot, holdingArray = []) {
+    // Traverse Left
+    if (currentNode.leftPointer !== null) {
+      holdingArray = this.#inOrder(func, currentNode.leftPointer, holdingArray)
+    }
+    // Check current Data
+    if (func) {
+      holdingArray[holdingArray.length] = {
+        value: currentNode.value,
+        outcome: func(currentNode.value),
+      }
+    } else {
+      holdingArray[holdingArray.length] = currentNode.value
+    }
+    // Traverse right
+    if (currentNode.rightPointer !== null) {
+      holdingArray = this.#inOrder(func, currentNode.rightPointer, holdingArray)
+    }
+    return holdingArray
+  }
+
+  // Returns an array of each nodes value during the pre order (depth-first) method of traversal
+  // Sort the data, then search left and finally search right
+  // If passed a function will return an array of objects
+  // with the outcome of the function on each node
+  #preOrder(func = null, currentNode = this.treeRoot, holdingArray = []) {
+    // Check current Data
+    if (func) {
+      holdingArray[holdingArray.length] = {
+        value: currentNode.value,
+        outcome: func(currentNode.value),
+      }
+    } else {
+      holdingArray[holdingArray.length] = currentNode.value
+    }
+    // Traverse Left
+    if (currentNode.leftPointer !== null) {
+      holdingArray = this.#preOrder(func, currentNode.leftPointer, holdingArray)
+    }
+    // Traverse right
+    if (currentNode.rightPointer !== null) {
+      holdingArray = this.#preOrder(func, currentNode.rightPointer, holdingArray)
+    }
+    return holdingArray
+  }
+
+  // Returns an array of each nodes value during the pre order (depth-first) method of traversal
+  // First search left, then search right, finally sort the data
+  // If passed a function will return an array of objects
+  // with the outcome of the function on each node
+  #postOrder(func = null, currentNode = this.treeRoot, holdingArray = []) {
+    // Traverse Left
+    if (currentNode.leftPointer !== null) {
+      holdingArray = this.#postOrder(func, currentNode.leftPointer, holdingArray)
+    }
+    // Traverse right
+    if (currentNode.rightPointer !== null) {
+      holdingArray = this.#postOrder(func, currentNode.rightPointer, holdingArray)
+    }
+    // Check current Data
+    if (func) {
+      holdingArray[holdingArray.length] = {
+        value: currentNode.value,
+        outcome: func(currentNode.value),
+      }
+    } else {
+      holdingArray[holdingArray.length] = currentNode.value
+    }
+    return holdingArray
   }
 
   // #########################################//
@@ -178,5 +255,17 @@ export default class Tree {
 
   levelOrder(func = null) {
     return this.#levelOrder(func)
+  }
+
+  inOrder(func = null) {
+    return this.#inOrder(func)
+  }
+
+  preOrder(func = null) {
+    return this.#preOrder(func)
+  }
+
+  postOrder(func = null) {
+    return this.#postOrder(func)
   }
 }
