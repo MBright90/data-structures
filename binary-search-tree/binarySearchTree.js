@@ -48,7 +48,6 @@ export default class Tree {
 
     const midIndex = Math.floor((startIndex + endIndex) / 2)
     const rootNode = new Node(array[midIndex])
-    console.log(rootNode)
 
     rootNode.leftPointer = this.#buildTree(array, startIndex, midIndex - 1)
     rootNode.rightPointer = this.#buildTree(array, midIndex + 1, endIndex)
@@ -140,13 +139,22 @@ export default class Tree {
   }
 
   // Prints each nodes value during the level order of traversal
-  #levelOrder(currentNode = this.treeRoot, queue = []) {
-    console.log(currentNode.value)
+  #levelOrder(func = null, currentNode = this.treeRoot, queue = [], holdingArray = []) {
     // DLR Data, Left Node, Right Node
+    if (func) {
+      holdingArray[holdingArray.length] = {
+        value: currentNode.value,
+        outcome: func(currentNode.value),
+      }
+    } else {
+      holdingArray[holdingArray.length] = currentNode.value
+    }
+
     if (currentNode.leftPointer !== null) queue.push(currentNode.leftPointer)
     if (currentNode.rightPointer !== null) queue.push(currentNode.rightPointer)
-    const nextNode = queue.unshift()
-    this.levelOrder(nextNode, queue)
+
+    if (queue.length === 0) return holdingArray
+    return this.#levelOrder(func, queue.shift(), queue, holdingArray)
   }
 
   // #########################################//
@@ -161,14 +169,14 @@ export default class Tree {
   }
 
   delete(value) {
-    this.#delete(value)
+    return this.#delete(value)
   }
 
   find(value) {
-    this.#find(value)
+    return this.#find(value)
   }
 
-  levelOrder() {
-    this.#levelOrder()
+  levelOrder(func = null) {
+    return this.#levelOrder(func)
   }
 }
