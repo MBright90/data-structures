@@ -269,20 +269,19 @@ export default class Tree {
 
   // Returns true if maximum difference of leaf depths is 1
   #isBalanced(currentNode = this.treeRoot) {
-    if (currentNode.leftPointer === null && currentNode.rightPointer === null) return 0
+    if (currentNode === null) return 0
 
     // Check left subtree
-    if (currentNode.leftPointer === null) return this.#isBalanced(currentNode.rightPointer) + 1
-
-    // Check right subtree
-    if (currentNode.rightPointer === null) return this.#isBalanced(currentNode.leftPointer) + 1
-
     const leftDepth = this.#isBalanced(currentNode.leftPointer)
+    // Check right subtree
     const rightDepth = this.#isBalanced(currentNode.rightPointer)
 
+    // If any previous checks have been unbalanced, return -1
     if (leftDepth === -1 || rightDepth === -1) return -1
-    if (Math.abs(leftDepth, rightDepth) > 1) return -1
-    return Math.max(leftDepth, rightDepth) + 1
+    // If this check is unbalanced, return -1
+    if (Math.abs(leftDepth - rightDepth) > 1) return -1
+    // Return the current greatest height of the subtree +1 for current node
+    return leftDepth > rightDepth ? leftDepth + 1 : rightDepth + 1
   }
 
   // #########################################//
@@ -331,8 +330,7 @@ export default class Tree {
   }
 
   isBalanced() {
-    const depthDifference = this.#isBalanced()
-    return depthDifference
+    return this.#isBalanced() > 0
   }
 
   rebalance() {
