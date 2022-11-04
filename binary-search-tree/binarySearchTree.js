@@ -1,5 +1,9 @@
 import Node from './treeNode.js'
 
+// #########################################//
+// ########### UTILITY FUNCTIONS ###########//
+// #########################################//
+
 function mergeSort(array) {
   if (array.length === 1) return array
 
@@ -35,6 +39,10 @@ function removeDuplicates(array) {
   return sortedArray
 }
 
+// #########################################//
+// ####### BINARY SEARCH TREE CLASS ########//
+// #########################################//
+
 export default class Tree {
   constructor(array) {
     this.treeRoot = this.#buildTree(removeDuplicates(mergeSort(array)))
@@ -53,16 +61,6 @@ export default class Tree {
     rootNode.rightPointer = this.#buildTree(array, midIndex + 1, endIndex)
 
     return rootNode
-  }
-
-  prettyPrint(node = this.treeRoot, prefix = '', isLeft = true) {
-    if (node.rightPointer !== null) {
-      this.prettyPrint(node.rightPointer, `${prefix}${isLeft ? '│   ' : '    '}`, false)
-    }
-    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.value}`)
-    if (node.leftPointer !== null) {
-      this.prettyPrint(node.leftPointer, `${prefix}${isLeft ? '    ' : '│   '}`, true)
-    }
   }
 
   // Takes a value and creates a new node with that value within the tree
